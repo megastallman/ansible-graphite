@@ -1,0 +1,46 @@
+---
+- name: Add the EPEL Repository
+  yum: name=epel-release state=present
+  when: ansible_os_family == 'RedHat'
+
+- name: Install Python PIP and Python Development
+  yum: "name={{ item }} state=installed"
+  with_items:
+   - python-pip
+   - python-devel
+   - sqlite
+   - sqlite-devel
+  when: ansible_os_family == 'RedHat'
+
+- name: Install Development Tools
+  yum: name="@Development tools" state=present
+  when: ansible_os_family == 'RedHat'
+
+- name: Install the latest pip
+  pip: name=pip version=8.1.0
+  when: ansible_os_family == 'RedHat'
+
+- name: Install pysqlite with pip
+  pip: name=pysqlite
+  when: ansible_os_family == 'RedHat'
+
+- name: Lookup OS specific variables
+  include_vars: "{{ ansible_os_family }}.yml"
+  tags: debian
+
+- name: Install apache packages for RedHat
+  yum: "name={{ item }} state=present"
+  with_items: apache_pkgs
+  when: ansible_os_family == 'RedHat'
+
+- name: Install apache packages for Debian
+  apt: "name={{ item }} state=present update_cache=yes"
+  with_items: apache_pkgs
+  when: ansible_os_family == 'Debian'
+
+- name: Disable default apache virtual host
+  template: src=roles/graphite/templates/etc/apache/httpd.conf.RedHat.j2 dest=/etc/httpd/conf/httpd.conf
+  when: ansible_os_family == 'RedHat'
+
+- name: Autostart httpd
+  service: name=httpd enabled=yes state=restarted
