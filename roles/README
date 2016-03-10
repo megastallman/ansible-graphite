@@ -1,0 +1,8 @@
+Example playbook:
+
+- hosts: graphite*
+  become: yes
+  become_method: sudo
+  roles:
+  - role: graphite-apache
+  - role: graphite
