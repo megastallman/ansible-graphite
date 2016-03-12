@@ -45,7 +45,6 @@
 - name: Autostart httpd
   service: name=httpd enabled=yes state=restarted
 
-  
 - name: Lookup OS specific variables
   include_vars: "{{ ansible_os_family }}.yml"
 
