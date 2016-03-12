@@ -1,6 +1,6 @@
-graphite-web
-whisper
-carbon
-django==1.8.7
-django-tagging==0.4.1
-twisted==15.5.0
+graphite-web==0.9.12
+whisper==0.9.12
+carbon==0.9.12
+django==1.5.5
+django-tagging==0.3.1
+twisted==13.1.0
