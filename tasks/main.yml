@@ -111,7 +111,7 @@
 - name: Set file permissions
   #command: "/bin/chown -R {{ apache_user }}:{{ apache_user }} /opt/graphite"
   #when: "permissions.stat.pw_name != apache_user"
-  file: path=/opt/graphite owner="{{ apache_user }}" group="{{ apache_user }}"
+  file: path=/opt/graphite owner="{{ apache_user }}" group="{{ apache_user }}" recurse=yes
 
 
 - name: Setup sqlitedb
